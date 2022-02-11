@@ -1,13 +1,14 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Script from 'next/script'
+import Layout from '../../components/layout'
 
 /**
  * 구성 요소의 이름은 제한이 없지만 내보내기로 내보내야 합니다 default.
  */
 export default function FirstPost() {
   return (
-    <>
+    <Layout>
       <Head>
         <title>First Post</title>
       </Head>
@@ -24,6 +25,6 @@ export default function FirstPost() {
           <a>Back to home</a>
         </Link>
       </h2>
-    </>
+    </Layout>
   )
 }
