@@ -101,3 +101,35 @@ Per-page Basis
 
 중요하게도 Next.js를 사용하면 각 페이지에 사용할 사전 렌더링 양식을 선택할 수 있습니다.
 대부분의 페이지에는 정적 생성을 사용하고 다른 페이지에는 서버 측 렌더링을 사용 하여 "하이브리드" Next.js 앱을 만들 수 있습니다.
+
+### 데이터가 있거나 없는 정적 생성
+
+정적 생성은 데이터 유무에 관계없이 수행할 수 있습니다.
+지금까지 우리가 만든 모든 페이지([Comment] 두 가지 형태의 사전 렌더링 | 커밋 전까지)는 외부 데이터를 가져올 필요가 없습니다.
+이러한 페이지는 앱이 프로덕션용으로 빌드될 때 자동으로 정적으로 생성됩니다.
+
+그러나 일부 페이지의 경우 먼저 외부 데이터를 가져오지 않고는 HTML을 렌더링하지 못할 수 있습니다.
+파일 시스템에 액세스하거나 외부 API를 가져오거나 빌드 시 데이터베이스를 쿼리해야 할 수도 있습니다.
+Next.js는 이 경우(데이터를 사용한 정적 생성)를 즉시 지원합니다.
+
+- 데이터를 사용한 정적 생성
+
+  ```javascript
+  export default function Home(props) { ... }
+
+  export async function getStaticProps() {
+    // Get external data from the file system, API, DB, etc.
+    const data = ...
+
+    // The value of the `props` key will be
+    //  passed to the `Home` component
+    return {
+      props: ...
+    }
+  }
+  ```
+
+  `getStaticProps` 함수를 생성하여 사용합니다. 이름은 변경할 수 없습니다.
+
+  - getStaticProps 함수를 사용하면 프로덕션 빌드 시간에 실행되고
+  - 함수 내에서 외부 데이터를 가져와 페이지에 소품으로 보낼 수 있습니다.
