@@ -7,6 +7,12 @@ export type PostsData = {
   [key: string]: any
 }
 
+export type PostsIds = {
+  params: {
+    id: string
+  }
+}
+
 const postsDirectory = path.join(process.cwd(), 'posts')
 
 export function getSortedPostsData(): PostsData[] {
@@ -41,7 +47,7 @@ export function getSortedPostsData(): PostsData[] {
   })
 }
 
-export function getAllPostIds() {
+export function getAllPostIds(): PostsIds[] {
   const fileNames = fs.readdirSync(postsDirectory)
 
   // Returns an array that looks like this:
@@ -64,4 +70,18 @@ export function getAllPostIds() {
       },
     }
   })
+}
+
+export function getPostData(id: string) {
+  const fullPath = path.join(postsDirectory, `${id}.md`)
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContents)
+
+  // Combine the data with the id
+  return {
+    id,
+    ...matterResult.data,
+  }
 }
