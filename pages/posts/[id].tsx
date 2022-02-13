@@ -1,5 +1,8 @@
+import utilStyles from '../../styles/utils.module.css'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 import { ParsedUrlQuery } from 'querystring'
+import Date from '../../components/date'
 import Layout from '../../components/layout'
 import { getAllPostIds, getPostData, PostsData } from '../../lib/posts'
 
@@ -13,13 +16,16 @@ interface IParams extends ParsedUrlQuery {
 export default function Post({ postData }: PostProps) {
   return (
     <Layout home={false}>
-      {postData.title}
-      <br />
-      {postData.id}
-      <br />
-      {postData.date}
-      <br />
-      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      <article>
+        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>
+          <Date dateString={postData.date} />
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      </article>
     </Layout>
   )
 }
